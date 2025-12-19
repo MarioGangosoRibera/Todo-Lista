@@ -1,60 +1,61 @@
+import Swal from "sweetalert2"
 import { Tareas } from "./Tareas"
 
-export const ListarTareas = ({tareas, setTareas, verCompletadas}) => {
+export const ListarTareas = ({ tareas, setTareas, verCompletadas }) => {
 
   const tareaCompletada = (id) => {
-    setTareas(tareas.map((tarea) => {
-      if(tarea.id == id) {
-        return {...tarea, completada : !tarea.completada}
-    }
-    return tarea
-    }))
+    setTareas(tareas.map(tarea =>
+      tarea.id === id
+        ? { ...tarea, completada: !tarea.completada }
+        : tarea
+    ))
   }
 
   const editaTarea = (id, textoNuevo) => {
-    setTareas(tareas.map((tarea) => {
-      if(tarea.id == id) {
-        return {...tarea, texto : textoNuevo}
-    }
-    return tarea
-    }))
+    setTareas(tareas.map(tarea =>
+      tarea.id === id
+        ? { ...tarea, texto: textoNuevo }
+        : tarea
+    ))
+
+    Swal.fire(
+      'Bien hecho',
+      'Has actualizado una tarea',
+      'success'
+    )
   }
 
   const eliminarTarea = (id) => {
-    setTareas(tareas.filter((tarea) => {
-      if(tarea.id !== id) {
-        return tarea
-    }
-    return
-    }))
+    setTareas(tareas.filter(tarea => tarea.id !== id))
+
+    Swal.fire(
+      'Bien hecho',
+      'Has eliminado una tarea',
+      'success'
+    )
   }
+
+  const tareasFiltradas = verCompletadas
+    ? tareas
+    : tareas.filter(tarea => !tarea.completada)
 
   return (
     <ul className="lista-tareas">
-        {
-            tareas.length > 0 ? tareas.map((tarea) => {
-              
-              if(verCompletadas) {
-                return <Tareas
-                        key={tarea.id}
-                        tarea={tarea} 
-                        tareaCompletada={tareaCompletada}
-                        editaTarea={editaTarea}
-                        eliminarTarea={eliminarTarea}
-                />
-              } else if(!tarea.completada) {
-                return <Tareas
-                        key={tarea.id}
-                        tarea={tarea} 
-                        tareaCompletada={tareaCompletada}
-                        editaTarea={editaTarea}
-                        eliminarTarea={eliminarTarea}
-                />
-              }
-              return
-                
-            }) : <div className="lista-tareas__mensaje">No hay tareas pendientes</div>
-        }
+      {
+        tareasFiltradas.length > 0
+          ? tareasFiltradas.map(tarea => (
+              <Tareas
+                key={tarea.id}
+                tarea={tarea}
+                tareaCompletada={tareaCompletada}
+                editaTarea={editaTarea}
+                eliminarTarea={eliminarTarea}
+              />
+            ))
+          : <div className="lista-tareas__mensaje">
+              No hay tareas pendientes
+            </div>
+      }
     </ul>
   )
 }

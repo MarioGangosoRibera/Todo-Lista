@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import { v4 as uuidv4 } from 'uuid';
+import Swal from 'sweetalert2';
 
 
 export const Formulario = ({tareas, setTareas}) => {
@@ -17,9 +18,17 @@ export const Formulario = ({tareas, setTareas}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const nuevaTarea = {
-            id: uuidv4(), texto: tarea, completada: false
+            id: uuidv4(), 
+            texto: tarea, 
+            completada: false
         }
+        if(nuevaTarea.texto === '') return // No agregar tareas vacías
         setTareas([...tareas, nuevaTarea])
+        Swal.fire(
+            'Bien hecho',
+            'Has agregado una nueva tarea',
+            'success',
+        )   
         setTarea('')
     }
   
