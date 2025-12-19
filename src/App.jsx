@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import { Formulario } from './components/Formulario'
 import { Header } from './components/header'
@@ -8,14 +8,31 @@ import { ListarTareas } from './components/ListarTareas'
 
 function App() {
 
-  const initialState = [
-    { id: 1, texto: 'Comprar pan', completada: false },
-    { id: 2, texto: 'Llevar el coche al taller', completada: true },
-    { id: 3, texto: 'Pagar la luz', completada: false },
-  ]
+  const tareasGuardadas = localStorage.getItem('tareas') ? JSON.parse(localStorage.getItem('tareas')) : []
 
-  const [tareas, setTareas] = useState(initialState)
-  const [verCompletadas, setVerCompletadas] = useState(false)
+  const [tareas, setTareas] = useState(tareasGuardadas)
+  
+
+  let tareasCompletadas = ''
+
+  if (localStorage.getItem('verCompletadas') === null) {
+    tareasCompletadas = true
+  } else{
+    tareasCompletadas = localStorage.getItem('verCompletadas') === 'true'
+  }
+  
+  const [verCompletadas, setVerCompletadas] = useState(tareasCompletadas)
+  
+  useEffect(() => {
+    localStorage.setItem('verCompletadas', verCompletadas.toString())
+  }, [verCompletadas])
+
+  
+
+  useEffect(() => {
+    localStorage.setItem('tareas', JSON.stringify(tareas))
+  }, [tareas])
+  
 
   return (
     <>
