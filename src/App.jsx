@@ -5,29 +5,17 @@ import './App.css'
 import { Formulario } from './components/Formulario'
 import { Header } from './components/header'
 import { ListarTareas } from './components/ListarTareas'
+import { getTareasGuardadas } from './helper/getTareasGuardadas'
+import { getTareasCompletas } from './helper/getTareasCompletas'
 
 function App() {
 
-  const tareasGuardadas = localStorage.getItem('tareas') ? JSON.parse(localStorage.getItem('tareas')) : []
-
-  const [tareas, setTareas] = useState(tareasGuardadas)
-  
-
-  let tareasCompletadas = ''
-
-  if (localStorage.getItem('verCompletadas') === null) {
-    tareasCompletadas = true
-  } else{
-    tareasCompletadas = localStorage.getItem('verCompletadas') === 'true'
-  }
-  
-  const [verCompletadas, setVerCompletadas] = useState(tareasCompletadas)
+  const [tareas, setTareas] = useState(getTareasGuardadas())
+  const [verCompletadas, setVerCompletadas] = useState(getTareasCompletas())
   
   useEffect(() => {
     localStorage.setItem('verCompletadas', verCompletadas.toString())
   }, [verCompletadas])
-
-  
 
   useEffect(() => {
     localStorage.setItem('tareas', JSON.stringify(tareas))
