@@ -11,6 +11,24 @@ export const ListarTareas = ({tareas, setTareas}) => {
     }))
   }
 
+  const editaTarea = (id, textoNuevo) => {
+    setTareas(tareas.map((tarea) => {
+      if(tarea.id == id) {
+        return {...tarea, texto : textoNuevo}
+    }
+    return tarea
+    }))
+  }
+
+  const eliminarTarea = (id) => {
+    setTareas(tareas.filter((tarea) => {
+      if(tarea.id !== id) {
+        return tarea
+    }
+    return
+    }))
+  }
+
   return (
     <ul className="lista-tareas">
         {
@@ -19,6 +37,8 @@ export const ListarTareas = ({tareas, setTareas}) => {
                         key={tarea.id}
                         tarea={tarea} 
                         tareaCompletada={tareaCompletada}
+                        editaTarea={editaTarea}
+                        eliminarTarea={eliminarTarea}
                       />
             }) : <div className="lista-tareas__mensaje">No hay tareas pendientes</div>
         }

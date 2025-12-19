@@ -2,13 +2,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckSquare, faEdit, faSquare, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 
-export const Tareas = ({tarea, tareaCompletada}) => {
+export const Tareas = ({tarea, tareaCompletada, editaTarea, eliminarTarea}) => {
 
   const [editarTarea, setEditarTarea] = useState(false)
   const [nuevaTarea, setNuevaTarea] = useState(tarea.texto)
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    editaTarea(tarea.id, nuevaTarea)
     setEditarTarea(false)
     
   }
@@ -25,7 +26,11 @@ export const Tareas = ({tarea, tareaCompletada}) => {
       <div className='lista-tareas__texto'>
         {editarTarea ?
           <form  className='formulario-editar-tarea' onSubmit={handleSubmit}>
-            <input type="text" className='formulario-editar-tarea__input' value={nuevaTarea} onChange={(e) => setNuevaTarea(e.target.value)}/>
+            <input 
+              type="text" 
+              className='formulario-editar-tarea__input' 
+              value={nuevaTarea} onChange={(e) => setNuevaTarea(e.target.value)}
+            />
             <button type='submit' className='formulario-editar-tarea__btn'>
               Actualizar
             </button>
@@ -35,8 +40,16 @@ export const Tareas = ({tarea, tareaCompletada}) => {
       </div>
 
       <div className='lista-tareas__contenedor-botones'>
-        <FontAwesomeIcon icon={faEdit} className='lista-tareas__icono lista-tareas__icono-accion' onClick={ () => setEditarTarea(!editarTarea)}/>
-        <FontAwesomeIcon icon={faTimes} className='lista-tareas__icono lista-tareas__icono-accion'/>
+        <FontAwesomeIcon 
+          icon={faEdit} 
+          className='lista-tareas__icono lista-tareas__icono-accion' 
+          onClick={ () => setEditarTarea(!editarTarea)}
+        />
+        <FontAwesomeIcon 
+          icon={faTimes} 
+          className='lista-tareas__icono lista-tareas__icono-accion' 
+          onClick={ () => eliminarTarea(tarea.id)}
+        />
       </div>
     </li>
   )
