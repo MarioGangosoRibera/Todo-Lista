@@ -20,6 +20,7 @@ export const Formulario = ({tareas, setTareas}) => {
             id: uuidv4(), texto: tarea, completada: false
         }
         setTareas([...tareas, nuevaTarea])
+        setTarea('')
     }
   
     return (

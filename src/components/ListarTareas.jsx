@@ -1,6 +1,6 @@
 import { Tareas } from "./Tareas"
 
-export const ListarTareas = ({tareas, setTareas}) => {
+export const ListarTareas = ({tareas, setTareas, verCompletadas}) => {
 
   const tareaCompletada = (id) => {
     setTareas(tareas.map((tarea) => {
@@ -33,13 +33,26 @@ export const ListarTareas = ({tareas, setTareas}) => {
     <ul className="lista-tareas">
         {
             tareas.length > 0 ? tareas.map((tarea) => {
+              
+              if(verCompletadas) {
                 return <Tareas
                         key={tarea.id}
                         tarea={tarea} 
                         tareaCompletada={tareaCompletada}
                         editaTarea={editaTarea}
                         eliminarTarea={eliminarTarea}
-                      />
+                />
+              } else if(!tarea.completada) {
+                return <Tareas
+                        key={tarea.id}
+                        tarea={tarea} 
+                        tareaCompletada={tareaCompletada}
+                        editaTarea={editaTarea}
+                        eliminarTarea={eliminarTarea}
+                />
+              }
+              return
+                
             }) : <div className="lista-tareas__mensaje">No hay tareas pendientes</div>
         }
     </ul>

@@ -15,13 +15,14 @@ function App() {
   ]
 
   const [tareas, setTareas] = useState(initialState)
+  const [verCompletadas, setVerCompletadas] = useState(false)
 
   return (
     <>
       <div className='contenedor'>
-        <Header/>
+        <Header verCompletadas={verCompletadas} setVerCompletadas={setVerCompletadas}/>
         <Formulario tareas={tareas} setTareas={setTareas}/>
-        <ListarTareas tareas={tareas} setTareas={setTareas}/>
+        <ListarTareas tareas={tareas} setTareas={setTareas} verCompletadas={verCompletadas}/>
       </div>
     </>
   )
