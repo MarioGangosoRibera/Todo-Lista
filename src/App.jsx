@@ -21,7 +21,7 @@ function App() {
       <div className='contenedor'>
         <Header/>
         <Formulario tareas={tareas} setTareas={setTareas}/>
-        <ListarTareas tareas={tareas}/>
+        <ListarTareas tareas={tareas} setTareas={setTareas}/>
       </div>
     </>
   )
